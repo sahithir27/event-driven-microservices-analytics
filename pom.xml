@@ -13,6 +13,9 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>event-driven-microservices-analytics</name>
 	<description>Event-Driven Microservices Analytics</description>
+	<modules>
+		<module>twitter-to-kafka-service</module>
+	</modules>
 	<packaging>pom</packaging>
 	<url/>
 	<licenses>
@@ -31,6 +34,10 @@
 		<java.version>11</java.version>
 		<spring-boot.version>2.7.18</spring-boot.version>
 		<maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+		<twitter4j.version>4.0.7</twitter4j.version>
+		<lombok.version>1.18.36</lombok.version>
+		<httpclient.version>4.5.14</httpclient.version>
+		<json.version>20220320</json.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -39,12 +46,32 @@
 				<artifactId>spring-boot-starter</artifactId>
 				<version>${spring-boot.version}</version>
 			</dependency>
-
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient</artifactId>
+				<version>${httpclient.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.json</groupId>
+				<artifactId>json</artifactId>
+				<version>${json.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-starter-test</artifactId>
 				<version>${spring-boot.version}</version>
 				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.twitter4j</groupId>
+				<artifactId>twitter4j-stream</artifactId>
+				<version>${twitter4j.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>${lombok.version}</version>
+				<scope>provided</scope>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
