@@ -39,7 +39,8 @@ import twitter4j.TwitterException;
 import twitter4j.TwitterObjectFactory;
 
 @Component
-@ConditionalOnExpression("${twitter-to-kafka-service.enable-v2-tweets} && not ${twitter-to-kafka-service.enable-mock-tweets}")
+//@ConditionalOnExpression("${twitter-to-kafka-service.enable-v2-tweets} and !${twitter-to-kafka-service.enable-mock-tweets}")
+@ConditionalOnProperty(name = "twitter-to-kafka-service.enable-v2-tweets", havingValue = "true")
 public class TwitterV2StreamHelper {
     private static final Logger LOG = LoggerFactory.getLogger(TwitterV2StreamHelper.class);
     private final TwitterToKafkaServiceConfigData twitterToKafkaServiceConfigData;
