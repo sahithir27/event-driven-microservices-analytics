@@ -5,8 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.microservices.demo</groupId>
-        <artifactId>kafka</artifactId>
+        <artifactId>event-driven-microservices-analytics</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath> <!-- Adjust path to point to root if needed -->
     </parent>
 
     <artifactId>kafka-model</artifactId>
