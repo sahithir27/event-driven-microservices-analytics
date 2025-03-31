@@ -10,6 +10,8 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.admin.TopicListing;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.retry.RetryContext;
 import org.springframework.retry.support.RetryTemplate;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
+import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Component
@@ -60,6 +63,32 @@ public class KafkaAdminClient {
         return topics;
 
     }
+
+    public void checkSchemaRegistry() {
+        int retryCount = 1;
+        Integer maxRetry = retryConfigData.getMaxAttempts();
+        int multiplier = retryConfigData.getMultiplier().intValue();
+        Long sleepTimeMs = retryConfigData.getSleepTimeMs();
+        while (!getSchemaRegistryStatus().is2xxSuccessful()) {
+            checkMaxTry(retryCount++, maxRetry);
+            sleep(sleepTimeMs);
+            sleepTimeMs *= multiplier;
+        }
+    }
+
+    private HttpStatus getSchemaRegistryStatus() {
+        try {
+            return webClient
+                    .method(HttpMethod.GET)
+                    .uri(kafkaConfigData.getSchemaRegistryUrl())
+                    .exchange()
+                    .map(ClientResponse::statusCode)
+                    .block();
+        } catch (Exception e) {
+            return HttpStatus.SERVICE_UNAVAILABLE;
+        }
+    }
+
 
     private Collection<TopicListing> doGetTopics(RetryContext retryContext) throws ExecutionException, InterruptedException {
         LOG.info("Reading kafka topics {}, attempt {}", kafkaConfigData.getTopicNamesToCreate().toArray(),
