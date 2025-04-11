@@ -104,7 +104,7 @@ public class KafkaAdminClient {
         Collection<TopicListing> topics = getTopics();
         int retryCount=1;
         Integer maxRetryCount = retryConfigData.getMaxAttempts();
-        Integer multiplier = retryConfigData.getMultiplier();
+        int multiplier = retryConfigData.getMultiplier().intValue();
         Long sleepTimeMs = retryConfigData.getSleepTimeMs();
         for(String topicName : kafkaConfigData.getTopicNamesToCreate()){
             while(!isTopicCreated(topics, topicName)){

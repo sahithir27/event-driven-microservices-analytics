@@ -1,0 +1,17 @@
+server:
+  port: 8888
+logging:
+  level:
+    ROOT: INFO
+    org.springframework.cloud: DEBUG
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/sahithir27/config-server-repository.git
+          default-label: main
+          username: sahithir27
+          password: password
+          clone-on-start: true
+    fail-fast: true
